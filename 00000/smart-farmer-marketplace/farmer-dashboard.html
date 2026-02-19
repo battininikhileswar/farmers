@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmer Dashboard - Smart Farmer Marketplace</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-brand">🌾 Smart Farmer</div>
+            <div class="nav-links">
+                <a href="chat.html">Chat</a>
+                <span class="nav-user" id="farmerName"></span>
+                <button id="farmerLogout" class="btn btn-outline">Logout</button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="dashboard-main">
+        <div class="container" id="farmerApp">
+            <div class="dashboard-shell">
+                <aside class="sidebar">
+                    <div class="sidebar-header">
+                        <div class="sidebar-title">Farmer Panel</div>
+                        <div class="sidebar-subtitle" id="farmerRoleLine">Manage crops, orders & profile</div>
+                    </div>
+                    <a href="#" class="sidebar-link active" data-tab="overview">📊 Overview</a>
+                    <a href="#" class="sidebar-link" data-tab="crops">🌿 Manage Crops</a>
+                    <a href="#" class="sidebar-link" data-tab="sales">🧾 Sales & Orders</a>
+                    <a href="#" class="sidebar-link" data-tab="profile">👤 Profile & Plans</a>
+                </aside>
+
+                <section class="content">
+                    <div class="content-header">
+                        <h1 class="content-title">Farmer Dashboard</h1>
+                        <div class="content-actions">
+                            <a class="btn btn-outline" href="chat.html">Open Chat</a>
+                        </div>
+                    </div>
+
+                    <!-- Overview -->
+                    <div class="panel active" data-panel="overview">
+                        <section class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-label">Active Listings</div>
+                                <div class="stat-value" id="statActiveListings">0</div>
+                                <div class="stat-help">Crops currently available</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-label">Total Sales</div>
+                                <div class="stat-value" id="statTotalSales">₹0</div>
+                                <div class="stat-help">From your orders</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-label">Commission Rate</div>
+                                <div class="stat-value" id="statCommissionRate">—</div>
+                                <div class="stat-help">Based on your plan</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-label">Net Earnings</div>
+                                <div class="stat-value" id="statNetEarnings">₹0</div>
+                                <div class="stat-help">After commission</div>
+                            </div>
+                        </section>
+
+                        <section class="card">
+                            <h2>Quick Actions</h2>
+                            <div class="quick-actions">
+                                <button class="btn btn-primary" id="goToAddCrop">Add a new crop</button>
+                                <button class="btn btn-outline" id="goToSales">View sales & orders</button>
+                                <button class="btn btn-outline" id="goToProfile">Edit profile</button>
+                            </div>
+                        </section>
+                    </div>
+
+                    <!-- Crops -->
+                    <div class="panel" data-panel="crops">
+                        <section class="card add-crop-section">
+                            <h2>Add New Crop</h2>
+                            <form id="addCropForm" class="crop-form">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="cropName">Crop Name</label>
+                                        <input type="text" id="cropName" name="cropName" placeholder="e.g., Wheat, Rice, Tomato">
+                                        <span class="error-msg" id="cropNameError"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="cropQuantity">Quantity (KG)</label>
+                                        <input type="number" id="cropQuantity" name="quantity" placeholder="0" min="1" step="1">
+                                        <span class="error-msg" id="cropQuantityError"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="cropPrice">Price per KG (₹)</label>
+                                        <input type="number" id="cropPrice" name="price" placeholder="0" min="0.01" step="0.01">
+                                        <span class="error-msg" id="cropPriceError"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="cropImage">Image URL</label>
+                                    <input type="url" id="cropImage" name="imageUrl" placeholder="https://example.com/image.jpg">
+                                    <span class="error-msg" id="cropImageError"></span>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Add Crop</button>
+                            </form>
+                        </section>
+
+                        <section class="card crop-list-section">
+                            <h2>My Crops</h2>
+                            <div class="table-responsive">
+                                <table class="crop-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Image</th>
+                                            <th>Crop Name</th>
+                                            <th>Quantity (KG)</th>
+                                            <th>Price/KG (₹)</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="farmerCropList">
+                                        <!-- Populated by farmer.js -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p id="noCropsMsg" class="empty-msg">No crops listed yet. Add your first crop above!</p>
+                        </section>
+                    </div>
+
+                    <!-- Sales -->
+                    <div class="panel" data-panel="sales">
+                        <section class="card">
+                            <h2>Orders for your crops</h2>
+                            <div class="table-responsive">
+                                <table class="crop-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Order ID</th>
+                                            <th>Buyer</th>
+                                            <th>Items</th>
+                                            <th>Total (₹)</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="farmerOrdersTable"></tbody>
+                                </table>
+                            </div>
+                            <p id="noFarmerOrdersMsg" class="empty-msg">No orders found yet.</p>
+                        </section>
+                    </div>
+
+                    <!-- Profile -->
+                    <div class="panel" data-panel="profile">
+                        <section class="card profile-hero">
+                            <div class="profile-hero-left">
+                                <div class="avatar" id="farmerAvatar">👨‍🌾</div>
+                                <div>
+                                    <div class="profile-name" id="farmerProfileName">—</div>
+                                    <div class="profile-meta" id="farmerProfileMeta">Farmer profile</div>
+                                </div>
+                            </div>
+                            <div class="profile-hero-right">
+                                <div class="pill" id="farmerPlanPill">Plan: —</div>
+                                <button class="btn btn-outline" id="saveFarmerProfileBtn">Save Profile</button>
+                            </div>
+                        </section>
+
+                        <section class="card">
+                            <h2>Contact & Farm Details</h2>
+                            <form id="farmerProfileForm" class="profile-form">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="farmerProfilePhone">Phone</label>
+                                        <input id="farmerProfilePhone" type="tel" placeholder="10-digit phone" maxlength="10">
+                                        <span class="error-msg" id="farmerProfilePhoneError"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="farmerProfileEmail">Email</label>
+                                        <input id="farmerProfileEmail" type="email" disabled>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="farmerProfileFarmName">Farm Name</label>
+                                        <input id="farmerProfileFarmName" type="text" placeholder="e.g., Green Valley Farm">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="farmerProfileAddress">Address</label>
+                                        <input id="farmerProfileAddress" type="text" placeholder="Street / Village / Area">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="farmerProfileCity">City</label>
+                                        <input id="farmerProfileCity" type="text" placeholder="City">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="farmerProfilePincode">Pincode</label>
+                                        <input id="farmerProfilePincode" type="text" maxlength="6" placeholder="Pincode">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="farmerProfileBio">About</label>
+                                    <input id="farmerProfileBio" type="text" placeholder="Short bio about your farm & produce">
+                                </div>
+                            </form>
+                        </section>
+
+                        <section class="card">
+                            <h2>Plans & Commission</h2>
+                            <p class="muted">Choose a plan to reduce platform commission on your sales.</p>
+                            <div id="farmerPlans" class="plans-grid"></div>
+                        </section>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- Edit Crop Modal -->
+    <div id="editCropModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" id="closeEditModal">&times;</span>
+            <h2>Edit Crop</h2>
+            <form id="editCropForm">
+                <input type="hidden" id="editCropId">
+                <div class="form-group">
+                    <label for="editCropName">Crop Name</label>
+                    <input type="text" id="editCropName" required>
+                </div>
+                <div class="form-group">
+                    <label for="editCropQuantity">Quantity (KG)</label>
+                    <input type="number" id="editCropQuantity" min="1" required>
+                </div>
+                <div class="form-group">
+                    <label for="editCropPrice">Price per KG (₹)</label>
+                    <input type="number" id="editCropPrice" min="0.01" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="editCropImage">Image URL</label>
+                    <input type="url" id="editCropImage">
+                </div>
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/validation.js"></script>
+    <script src="js/farmer.js"></script>
+</body>
+</html>

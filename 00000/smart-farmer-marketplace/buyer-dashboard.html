@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buyer Dashboard - Smart Farmer Marketplace</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-brand">🌾 Smart Farmer</div>
+            <div class="nav-links">
+                <a href="chat.html">Chat</a>
+                <span class="nav-user" id="buyerName"></span>
+                <button id="buyerLogout" class="btn btn-outline">Logout</button>
+                <a href="#" class="btn btn-primary cart-btn" id="cartShortcut">
+                    🛒 Cart <span id="cartCount" class="cart-badge">0</span>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="dashboard-main">
+        <div class="container" id="buyerApp">
+            <div class="dashboard-shell">
+                <aside class="sidebar">
+                    <div class="sidebar-header">
+                        <div class="sidebar-title">Buyer Panel</div>
+                        <div class="sidebar-subtitle">Marketplace, orders & profile</div>
+                    </div>
+                    <a href="#" class="sidebar-link active" data-tab="market">🛒 Marketplace</a>
+                    <a href="#" class="sidebar-link" data-tab="orders">📦 Orders</a>
+                    <a href="#" class="sidebar-link" data-tab="cart">🧺 Cart</a>
+                    <a href="#" class="sidebar-link" data-tab="profile">👤 Profile</a>
+                </aside>
+
+                <section class="content">
+                    <div class="content-header">
+                        <h1 class="content-title">Buyer Dashboard</h1>
+                        <div class="content-actions">
+                            <a class="btn btn-outline" href="chat.html">Open Chat</a>
+                        </div>
+                    </div>
+
+                    <!-- Marketplace -->
+                    <div class="panel active" data-panel="market">
+                        <section class="card filters-section">
+                            <div class="filters-row">
+                                <div class="search-box">
+                                    <input type="text" id="cropSearch" placeholder="Search crops..." autocomplete="off">
+                                    <span class="search-icon">🔍</span>
+                                </div>
+                                <div class="filter-group">
+                                    <label for="priceFilter">Sort:</label>
+                                    <select id="priceFilter">
+                                        <option value="all">Recommended</option>
+                                        <option value="low">Price: Low to High</option>
+                                        <option value="high">Price: High to Low</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="crop-grid" id="cropMarketplace">
+                            <!-- Populated by buyer.js -->
+                        </section>
+                        <p id="noCropsMarketplace" class="empty-msg">No crops available. Check back later!</p>
+                    </div>
+
+                    <!-- Orders -->
+                    <div class="panel" data-panel="orders">
+                        <section class="card orders-section">
+                            <h2>My Orders</h2>
+                            <div id="orderList" class="order-list">
+                                <!-- Populated by buyer.js -->
+                            </div>
+                            <p id="noOrdersMsg" class="empty-msg">No orders yet.</p>
+                        </section>
+                    </div>
+
+                    <!-- Cart -->
+                    <div class="panel" data-panel="cart">
+                        <section class="card cart-section">
+                            <h2>Your Cart</h2>
+                            <div id="cartItems" class="cart-items">
+                                <!-- Populated by buyer.js -->
+                            </div>
+                            <div class="cart-footer">
+                                <p class="cart-total">Total: <strong id="cartTotal">₹0</strong></p>
+                                <button id="placeOrderBtn" class="btn btn-primary" disabled>Place Order</button>
+                            </div>
+                        </section>
+                    </div>
+
+                    <!-- Profile -->
+                    <div class="panel" data-panel="profile">
+                        <section class="card profile-hero">
+                            <div class="profile-hero-left">
+                                <div class="avatar" id="buyerAvatar">🧑‍💼</div>
+                                <div>
+                                    <div class="profile-name" id="buyerProfileName">—</div>
+                                    <div class="profile-meta" id="buyerProfileMeta">Buyer profile</div>
+                                </div>
+                            </div>
+                            <div class="profile-hero-right">
+                                <button class="btn btn-outline" id="saveBuyerProfileBtn">Save Profile</button>
+                            </div>
+                        </section>
+
+                        <section class="card">
+                            <h2>Contact Details</h2>
+                            <form id="buyerProfileForm" class="profile-form">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="buyerProfilePhone">Phone</label>
+                                        <input id="buyerProfilePhone" type="tel" placeholder="10-digit phone" maxlength="10">
+                                        <span class="error-msg" id="buyerProfilePhoneError"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="buyerProfileEmail">Email</label>
+                                        <input id="buyerProfileEmail" type="email" disabled>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="buyerProfileAddress">Address</label>
+                                        <input id="buyerProfileAddress" type="text" placeholder="Delivery address">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="buyerProfileCity">City</label>
+                                        <input id="buyerProfileCity" type="text" placeholder="City">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="buyerProfilePincode">Pincode</label>
+                                        <input id="buyerProfilePincode" type="text" maxlength="6" placeholder="Pincode">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="buyerProfileNote">Notes</label>
+                                        <input id="buyerProfileNote" type="text" placeholder="e.g., call before delivery">
+                                    </div>
+                                </div>
+                            </form>
+                        </section>
+
+                        <section class="card">
+                            <h2>Purchase History</h2>
+                            <p class="muted">A detailed view of what you purchased (items, totals, status).</p>
+                            <div id="buyerPurchaseHistory" class="order-list"></div>
+                            <p id="buyerNoHistory" class="empty-msg">No purchase history yet.</p>
+                        </section>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/buyer.js"></script>
+</body>
+</html>
