@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat - Smart Farmer Marketplace</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-brand">🌾 Smart Farmer</div>
+            <div class="nav-links">
+                <a href="#" id="dashboardLink">Dashboard</a>
+                <span class="nav-user" id="chatUserName"></span>
+                <button id="chatLogout" class="btn btn-outline">Logout</button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="chat-main">
+        <div class="chat-container">
+            <!-- User List -->
+            <aside class="chat-sidebar">
+                <h3>Online Users</h3>
+                <ul id="userList" class="user-list">
+                    <!-- Populated by chat.js -->
+                </ul>
+            </aside>
+
+            <!-- Chat Area -->
+            <div class="chat-area">
+                <div class="chat-header">
+                    <h3 id="chatWithUser">Select a user to chat</h3>
+                </div>
+                <div id="chatMessages" class="chat-messages">
+                    <p class="chat-placeholder">Select a user from the list to start chatting.</p>
+                </div>
+                <div class="chat-input-area" id="chatInputArea">
+                    <input type="text" id="messageInput" placeholder="Type your message..." maxlength="500" disabled>
+                    <button id="sendMessageBtn" class="btn btn-primary" disabled>Send</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/chat.js"></script>
+</body>
+</html>
