@@ -1,0 +1,1 @@
+{\n  "name": "smart-farmer-marketplace-backend",\n  "version": "1.0.0",\n  "main": "index.js",\n  "dependencies": {\n    "express": "^4.17.1",\n    "firebase-admin": "^9.10.0"\n  },\n  "scripts": {\n    "start": "node index.js"\n  }\n}
